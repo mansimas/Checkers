@@ -1,0 +1,9 @@
+
+/app/cache/*
+/app/logs/*
+/app/cache/dev/twig/*
+/app/cache/dev/profiler/*
+/app/cache/dev/*
+
+*.csv
+*.log

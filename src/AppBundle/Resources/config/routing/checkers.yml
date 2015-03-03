@@ -1,0 +1,18 @@
+checkers:
+    path:     /play/{id}
+    defaults: { _controller: "AppBundle:Checkers:index" }
+
+checkers_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Checkers:new" }
+checkers_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Checkers:create" }
+    requirements: { _method: post }
+checkers_all:
+    path:     /all
+    defaults: { _controller: "AppBundle:Checkers:all" }
+checkers_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Checkers:delete" }
+    requirements: { _method: post|delete }

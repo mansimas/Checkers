@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+ 
+{% block body -%}
+    <h1>Checkers games list</h1>
+	<a href="{{ path('checkers_new') }}">New game</a>
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>whites</th>
+                <th>blacks</th>
+                <th>a1</th>
+                <th>Play</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.getWhites() }}</td>
+                <td>{{ entity.getBlacks() }}</td>
+                <td>{{ entity.getA1() }}</td>
+                <td><a href="{{ path('checkers', { 'id': entity.id}) }}">play</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

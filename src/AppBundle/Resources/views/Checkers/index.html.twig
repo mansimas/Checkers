@@ -1,0 +1,150 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+<div style="position:absolute">
+    {{ form(delete_form) }}<br>
+    <a href="{{ path('checkers_all')}}">Games list</a><br>
+    <a href="{{ path('checkers_new')}}">New game</a><br>
+    Turn: {{ dump(moves.getTurn) }}<br>
+    possible moves:<br>{{ dump(moves.getPossibleMoves())}}<br>
+    compulsory<br>{{ dump(moves.getMovedCompulsory())}}<br>
+    possible double hit?:<br>{{ dump(moves.doubleHitPossible())}}
+</div>
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+
+<center>
+<table id="chess_board" cellpadding="0" cellspacing="0">
+
+<input type="hidden"  name="form[turn]" value="{{ moves.getTurn() }}" />
+
+{% for row in [8,7,6,5,4,3,2,1] %}
+
+  <tr>
+
+  {% for column in ['a','b','c','d','e','f','g','h'] %}
+    {% set id = column~row %}
+
+    <td style="font-size:300%;" >
+    
+    {% if attribute(entity, id) is defined %}
+
+
+        {% if id in moves.getPossibleMoves() %}
+          {% set buttonType = "submit" %}
+        {% else %}
+          {% set buttonType = "button" %}
+        {% endif %}
+      
+
+
+        {% if attribute(entity, id) == 'black' %}
+            {% if buttonType == "submit" %}
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rblack"
+                style="width:100%; height: 110%; color: blue;">&#9922;</button>
+            {% elseif buttonType == "button" %}
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rblack"
+                style="width:100%; height: 110%;">&#9922;</button>
+            {% endif %}
+
+        {% elseif attribute(entity, id) == 'rblack' %}
+            <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="black"
+            style="width:100%; height: 110%; color: red;" >&#9922;</button>
+            {% if buttonType == "button" %}
+                <input type="hidden"  name="form[{{ id }}]" value="none" />
+            {% endif %}
+
+        {% elseif attribute(entity, id) == 'white' %}
+            {% if buttonType == "submit" %}
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rwhite"
+                style="width:100%; height: 110%; color: blue;" >&#9920;</button>
+            {% elseif buttonType == "button" %}
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rwhite"
+                style="width:100%; height: 110%;" >&#9920;</button>
+            {% endif %}
+
+
+        {% elseif attribute(entity, id) == 'rwhite' %}
+            <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="white"
+            style="width:100%; height: 110%; color: red;" >&#9920;</button>
+            {% if buttonType == "button" %}
+               <input type="hidden"  name="form[{{ id }}]" value="none" />
+            {% endif %}
+
+        {% elseif attribute(entity, id) == 'blackDame' %}
+            {% if buttonType == "submit" %}
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rblackDame"
+                style="width:100%; height: 110%; color: blue;" >&#9923;</button>  
+            {% elseif buttonType == "button" %} 
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rblackDame"
+                style="width:100%; height: 110%;" >&#9923;</button> 
+            {% endif %}
+
+        {% elseif attribute(entity, id) == 'rblackDame' %}
+            <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="blackDame"
+            style="width:100%; height: 110%; color: red;" >&#9923;</button>
+            {% if buttonType == "button" %}
+                <input type="hidden"  name="form[{{ id }}]" value="none" />
+            {% endif %}  
+
+        {% elseif attribute(entity, id) == 'whiteDame' %}
+            {% if buttonType == "submit" %}
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rwhiteDame"
+                style="width:100%; height: 110%; color: blue;" >&#9921;</button>
+            {% elseif buttonType == "button" %} 
+                <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="rwhiteDame"
+                style="width:100%; height: 110%;" >&#9921;</button>
+            {% endif %}  
+
+        {% elseif attribute(entity, id) == 'rwhiteDame' %}
+            <button type="{{buttonType}}" id="form[{{ id }}]" name="form[{{ id }}]" value="whiteDame"
+            style="width:100%; height: 110%; color: red;" >&#9921;</button>
+            {% if buttonType == "button" %}
+                <input type="hidden"  name="form[{{ id }}]" value="none" />
+            {% endif %}                                
+
+        {% else %}
+            {% if buttonType == "submit" and moves.getMovedCompulsory == true %}
+                {% for key, value in moves.getPossibleMoves %}
+                    {% if value == id  %}
+                        {% set theValue =  key %}
+
+                        {% if moves.doubleHitPossible == true and id in moves.doubleHitPossibleMoves() %}
+                            <button type="{{buttonType}}" onClick="hitAndLeaveTurn('{{theValue}}')" name="form[{{ id }}]" value="{{ moves.getColor() }}" 
+                            style="width:100%; height: 110%;" ><span style="padding:20px;" ></span></button>
+
+
+                        {% else %}
+                            <button type="{{buttonType}}" onClick="hitAndChangeTurn('{{theValue}}','{{moves.getOppositeTurn()}}' )" name="form[{{ id }}]" value="{{ moves.getRealColor( id ) }}" 
+                            style="width:100%; height: 110%;" >
+                            <span style="padding:20px;" ></span></button>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+
+                <button type="{{buttonType}}" onClick="changeTurn('{{moves.getOppositeTurn()}}')" name="form[{{ id }}]" value="{{ moves.getRealColor( id ) }}" style="width:100%; height: 110%;" >
+                <span style="padding:20px;" ></span></button>
+
+            {% endif %}
+        {% endif %}
+    {% endif %}
+ 
+    </td>
+  {% endfor %}
+
+  </tr>
+
+{% endfor %}
+
+</table>
+</center>
+
+<span id="hittedChecker"></span>
+<span id="changedTurn"></span>
+
+{{ form_end(form) }}
+
+{% endblock %}

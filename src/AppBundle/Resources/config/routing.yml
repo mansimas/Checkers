@@ -1,0 +1,31 @@
+app_checkers:
+    resource: "@AppBundle/Resources/config/routing/checkers.yml"
+    prefix:   /checkers
+
+app_user:
+    resource: "@AppBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+user_all:
+    path: /user/all
+    defaults: { _controller: AppBundle:User:index }
+login:
+    path: /login
+    defaults: { _controller: AppBundle:Security:login }
+login_check:
+    path: /login_check
+logout:
+    pattern: /logout
+app_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+rules:
+    path:     /rules
+    defaults: { _controller: AppBundle:Default:rules }
+register:
+    path: /register
+    defaults: { _controller: AppBundle:User:new }
+create:
+    path:     /create
+    defaults: { _controller: "AppBundle:User:create" }
+    requirements: { _method: post }
+
