@@ -1,6 +1,7 @@
 Checkers game with Symfony2 framework
 ========================
 
+My personal task given by NFQ before applying to work. Mission succeeded :)
 
 Requirements:
 --------------
