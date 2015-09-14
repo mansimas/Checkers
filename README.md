@@ -3,6 +3,8 @@ Checkers game with Symfony2 framework
 
 My personal task given by NFQ before applying to work. Mission succeeded :)
 
+Project made with Symfony Forms avoiding frontend, because i was applying as a backend developer.
+
 Requirements:
 --------------
 
