@@ -5,6 +5,8 @@ My personal task given by NFQ before applying to work. Mission succeeded :)
 
 Project made with Symfony Forms avoiding frontend, because i was applying as a backend developer.
 
+I didnt know PHP and Symfony. Needed to learn PHP, learn Symfony and create checkers game in 2 months totally.
+
 Requirements:
 --------------
 
